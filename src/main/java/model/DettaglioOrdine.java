@@ -54,3 +54,4 @@ public class DettaglioOrdine implements Cloneable {
             return null;
         }
     }
+}
