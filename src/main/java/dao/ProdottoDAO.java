@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.Prodotto; 
+import model.Prodotto;
 
 public class ProdottoDAO {
 
@@ -52,6 +51,21 @@ public class ProdottoDAO {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 products.add(mapRowToProduct(rs));
+            }
+        }
+        return products;
+    }
+
+    public synchronized List<Prodotto> doRetrieveByCategoria(int idCategoria) throws SQLException {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE cancellato = FALSE AND id_categoria = ?";
+        List<Prodotto> products = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, idCategoria);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapRowToProduct(rs));
+                }
             }
         }
         return products;
