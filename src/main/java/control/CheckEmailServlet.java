@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.SQLException;
 import dao.UtenteDAO;
+import dao.UtenteDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +16,14 @@ public class CheckEmailServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private UtenteDAO utenteDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.utenteDAO = new UtenteDAOImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,7 +33,6 @@ public class CheckEmailServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            UtenteDAO utenteDAO = new UtenteDAO();
             Cliente cliente = utenteDAO.doRetrieveByEmail(email);
 
             if (cliente != null) {
