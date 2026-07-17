@@ -2,8 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import dao.UtenteDAO;
+import dao.UtenteDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +14,14 @@ import model.Cliente;
 @WebServlet(name = "RegistrazioneServlet", urlPatterns = {"/registrazione"})
 public class RegistrazioneServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    private UtenteDAO utenteDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.utenteDAO = new UtenteDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +36,6 @@ public class RegistrazioneServlet extends HttpServlet {
         String password = request.getParameter("password");
         String telefono = request.getParameter("telefono");
 
-        // Validazione server-side
         if (nome == null || cognome == null || email == null || password == null || telefono == null ||
             nome.trim().isEmpty() || cognome.trim().isEmpty() || email.trim().isEmpty() || 
             password.trim().isEmpty() || telefono.trim().isEmpty()) {
@@ -38,7 +45,6 @@ public class RegistrazioneServlet extends HttpServlet {
             return;
         }
 
-        // Istanza dell'entità target
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setCognome(cognome);
@@ -46,11 +52,8 @@ public class RegistrazioneServlet extends HttpServlet {
         cliente.setPasswordHash(password);
         cliente.setTelefono(telefono);
 
-        // Invocazione del DAO corretto presente nel progetto
-        UtenteDAO utenteDAO = new UtenteDAO();
         try {
             utenteDAO.doSave(cliente);
-            // PRG Pattern
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (SQLException e) {
             request.setAttribute("error", "Errore: Email già in uso o problema al database.");
