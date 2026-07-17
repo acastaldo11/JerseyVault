@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.SQLException;
 import dao.UtenteDAO;
+import dao.UtenteDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +16,14 @@ import model.Cliente;
 public class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private UtenteDAO utenteDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.utenteDAO = new UtenteDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,7 +45,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        UtenteDAO utenteDAO = new UtenteDAO();
         try {
             Cliente cliente = utenteDAO.doRetrieveByEmail(email.trim());
 
@@ -44,7 +52,6 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("utenteLoggato", cliente);
                 
-                // Generazione token di sessione
                 String token = java.util.UUID.randomUUID().toString();
                 session.setAttribute("token", token);
 
