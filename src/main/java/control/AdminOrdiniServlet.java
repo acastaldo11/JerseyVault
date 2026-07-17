@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import dao.OrdineDAO;
+import dao.OrdineDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,14 @@ public class AdminOrdiniServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private OrdineDAO ordineDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.ordineDAO = new OrdineDAOImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -27,13 +36,11 @@ public class AdminOrdiniServlet extends HttpServlet {
             return;
         }
 
-        // Recupera i filtri dalla request
         String idCliente = request.getParameter("idCliente");
         String dataInizio = request.getParameter("dataInizio");
         String dataFine = request.getParameter("dataFine");
 
         try {
-            OrdineDAO ordineDAO = new OrdineDAO();
             List<Ordine> ordini = ordineDAO.doRetrieveByFiltri(idCliente, dataInizio, dataFine);
             request.setAttribute("ordini", ordini);
             request.setAttribute("idCliente", idCliente);
