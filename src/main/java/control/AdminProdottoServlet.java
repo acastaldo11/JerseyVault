@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import dao.CategoriaDAO;
+import dao.CategoriaDAOImpl;
 import dao.ProdottoDAO;
+import dao.ProdottoDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,11 +21,20 @@ public class AdminProdottoServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private ProdottoDAO prodottoDAO;
+    private CategoriaDAO categoriaDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.prodottoDAO = new ProdottoDAOImpl();
+        this.categoriaDAO = new CategoriaDAOImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Controllo accesso admin
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("adminLoggato") == null) {
             response.sendRedirect(request.getContextPath() + "/admin/login");
@@ -33,18 +44,14 @@ public class AdminProdottoServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         try {
-            ProdottoDAO prodottoDAO = new ProdottoDAO();
-            CategoriaDAO categoriaDAO = new CategoriaDAO();
             List<Categoria> categorie = categoriaDAO.doRetrieveAll();
             request.setAttribute("categorie", categorie);
 
             if ("/nuovo".equals(pathInfo)) {
-                // Mostra form per nuovo prodotto
                 request.getRequestDispatcher("/WEB-INF/view/admin/prodotto_form.jsp")
                        .forward(request, response);
 
             } else if ("/modifica".equals(pathInfo)) {
-                // Mostra form per modifica prodotto
                 int id = Integer.parseInt(request.getParameter("id"));
                 Prodotto p = prodottoDAO.doRetrieveById(id);
                 request.setAttribute("prodotto", p);
@@ -52,7 +59,6 @@ public class AdminProdottoServlet extends HttpServlet {
                        .forward(request, response);
 
             } else if ("/elimina".equals(pathInfo)) {
-                // Soft delete prodotto
                 int id = Integer.parseInt(request.getParameter("id"));
                 prodottoDAO.doDelete(id);
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
@@ -60,6 +66,8 @@ public class AdminProdottoServlet extends HttpServlet {
 
         } catch (SQLException e) {
             throw new ServletException(e);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         }
     }
 
@@ -76,8 +84,6 @@ public class AdminProdottoServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         try {
-            ProdottoDAO prodottoDAO = new ProdottoDAO();
-
             String nome = request.getParameter("nome");
             String descrizione = request.getParameter("descrizione");
             String squadra = request.getParameter("squadra");
@@ -109,6 +115,8 @@ public class AdminProdottoServlet extends HttpServlet {
 
         } catch (SQLException e) {
             throw new ServletException(e);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         }
     }
 }
