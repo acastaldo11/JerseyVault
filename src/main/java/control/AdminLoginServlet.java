@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.SQLException;
 import dao.AmministratoreDAO;
+import dao.AmministratoreDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +16,14 @@ import model.Amministratore;
 public class AdminLoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private AmministratoreDAO adminDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.adminDAO = new AmministratoreDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +48,6 @@ public class AdminLoginServlet extends HttpServlet {
         }
 
         try {
-            AmministratoreDAO adminDAO = new AmministratoreDAO();
             Amministratore admin = adminDAO.doRetrieveByEmail(email.trim());
 
             if (admin != null && admin.getPasswordHash().equals(password.trim())) {
