@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import dao.OrdineDAO;
+import dao.OrdineDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,14 @@ import model.Ordine;
 public class OrdiniClienteServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private OrdineDAO ordineDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.ordineDAO = new OrdineDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +44,6 @@ public class OrdiniClienteServlet extends HttpServlet {
         }
 
         try {
-            OrdineDAO ordineDAO = new OrdineDAO();
             List<Ordine> ordini = ordineDAO.doRetrieveByCliente(cliente.getId());
             request.setAttribute("ordini", ordini);
             request.getRequestDispatcher("/WEB-INF/view/ordini.jsp")
