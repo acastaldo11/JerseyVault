@@ -5,8 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import dao.IndirizzoDAO;
+import dao.IndirizzoDAOImpl;
 import dao.MetodoPagamentoDAO;
+import dao.MetodoPagamentoDAOImpl;
 import dao.OrdineDAO;
+import dao.OrdineDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,11 +29,23 @@ public class CheckoutServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private IndirizzoDAO indirizzoDAO;
+    private MetodoPagamentoDAO mpDAO;
+    private OrdineDAO ordineDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        this.indirizzoDAO = new IndirizzoDAOImpl();
+        this.mpDAO = new MetodoPagamentoDAOImpl();
+        this.ordineDAO = new OrdineDAOImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        // Controllo token di sessione
+        
         if (session == null || session.getAttribute("token") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -43,7 +58,7 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        // Controllo token di sessione
+        
         if (session == null || session.getAttribute("token") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -73,7 +88,6 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         try {
-            IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
             Indirizzo indirizzo = new Indirizzo();
             indirizzo.setIdCliente(cliente.getId());
             indirizzo.setVia(via.trim());
@@ -81,7 +95,6 @@ public class CheckoutServlet extends HttpServlet {
             indirizzo.setCap(cap.trim());
             indirizzoDAO.doSave(indirizzo);
 
-            MetodoPagamentoDAO mpDAO = new MetodoPagamentoDAO();
             MetodoPagamento mp = new MetodoPagamento();
             mp.setIdCliente(cliente.getId());
             mp.setTipo(tipoMetodo.trim());
@@ -104,7 +117,6 @@ public class CheckoutServlet extends HttpServlet {
             ordine.setTotale(carrello.getTotale());
             ordine.setStato("In lavorazione");
 
-            OrdineDAO ordineDAO = new OrdineDAO();
             ordineDAO.doSave(ordine, dettagli);
 
             carrello.svuota();
