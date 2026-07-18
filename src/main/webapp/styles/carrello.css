@@ -1,0 +1,21 @@
+.tabella-carrello {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tabella-carrello th, .tabella-carrello td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabella-carrello th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.input-quantita {
+    width: 50px;
+    padding: 5px;
+}
