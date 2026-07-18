@@ -1,0 +1,44 @@
+.dettaglio-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+.dettaglio-immagine {
+    flex: 1;
+}
+.dettaglio-immagine img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.dettaglio-info {
+    flex: 1;
+}
+.dettaglio-info h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.dettaglio-info .squadra {
+    font-size: 20px;
+    color: #0B6E4F;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.dettaglio-info .prezzo {
+    font-size: 28px;
+    color: #073B2C;
+    margin-bottom: 20px;
+}
+.dettaglio-info .taglia {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.dettaglio-info .descrizione {
+    margin-bottom: 20px;
+    color: #555;
+}
+@media (max-width: 768px) {
+    .dettaglio-container {
+        flex-direction: column;
+    }
+}
