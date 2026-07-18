@@ -1,0 +1,54 @@
+.client-ordini-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.client-ordini-container h2 {
+    color: #073B2C;
+    border-bottom: 2px solid #D8D8D8;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.alert-info {
+    background-color: #f4f4f2;
+    border-left: 4px solid #0B6E4F;
+    padding: 15px;
+    color: #1B1B1E;
+    margin-bottom: 20px;
+}
+
+.tabella-ordini {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tabella-ordini th {
+    background-color: #073B2C;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.tabella-ordini td {
+    padding: 12px;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.link-back {
+    display: inline-block;
+    margin-top: 15px;
+    color: #0B6E4F;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-back:hover {
+    text-decoration: underline;
+}
