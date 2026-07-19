@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f2;
+    color: #1B1B1E;
+}
+
+main {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #073B2C;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #0B6E4F;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card-prodotto {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card-prodotto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.card-prodotto h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.card-prodotto .squadra {
+    color: #0B6E4F;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-prodotto .prezzo {
+    font-size: 18px;
+    color: #073B2C;
+    margin-bottom: 10px;
+}
+
+.card-prodotto button {
+    background-color: #0B6E4F;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card-prodotto button:hover {
+    background-color: #073B2C;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    background-color: #0B6E4F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #073B2C;
+}
+
+.alert-error {
+    background-color: #ffe0e0;
+    border: 1px solid #E63946;
+    color: #E63946;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.mostra-errore {
+    display: block !important;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table th {
+    background-color: #0B6E4F;
+    color: white;
+    padding: 10px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+table tr:hover {
+    background-color: #f4f4f2;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    table th, table td {
+        padding: 6px;
+    }
+}
